@@ -11,7 +11,8 @@ public class ScaleFromEdge : MonoBehaviour
     public Sprite[] possibleSprites;
 
     Vector3 originalScale;
-    bool hasSpawned;
+
+    public SpriteColourCombo[] spriteColours;
 
     void Start()
     {
@@ -24,7 +25,7 @@ public class ScaleFromEdge : MonoBehaviour
         
         if (transform.localScale.x <= 0.1f)
         {
-            hasSpawned = true;
+            
   
             SpawnReplacement();
             Destroy(gameObject);
@@ -38,9 +39,11 @@ public class ScaleFromEdge : MonoBehaviour
     {
         GameObject clone = Instantiate(prefabToSpawn, transform.position, transform.rotation);
         clone.transform.localScale = originalScale;
-        
+
+        Debug.Log("colourObj = " + clone.GetComponent<ColourObj>());
 
         SpriteRenderer sr = clone.GetComponent<SpriteRenderer>();
+        ColourObj colourObj = clone.GetComponent<ColourObj>();
 
         if (sr != null && possibleSprites.Length > 0)
         {
@@ -51,7 +54,18 @@ public class ScaleFromEdge : MonoBehaviour
                 index = UnityEngine.Random.Range(0, possibleSprites.Length);
             }
 
-            sr.sprite = possibleSprites[index];
+            Sprite chosen = possibleSprites[index];
+            sr.sprite = chosen;
+
+            foreach (var pair in spriteColours)
+            {
+                if (pair.sprite == chosen)
+                {
+                    Debug.Log("PAIR: " + pair.sprite.name + " | CHOSEN: " + chosen.name);
+                    colourObj.colourName = pair.ColourName;
+                    break;
+                }
+            }
         }
                 
         
