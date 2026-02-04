@@ -6,6 +6,8 @@ using Unity.Mathematics;
 public class ScaleFromEdge : MonoBehaviour
 {
     public float shrinkSpeed = 0.5f;
+    public float difficultyRamp = 0.1f;
+    public static float GlobalDifficulty = 1f;
 
     [SerializeField] GameObject prefabToSpawn;
     public Sprite[] possibleSprites;
@@ -14,14 +16,17 @@ public class ScaleFromEdge : MonoBehaviour
 
     public SpriteColourCombo[] spriteColours;
 
-    void Start()
+    IEnumerator Start()
     {
+        yield return null;
         originalScale = transform.localScale;
         enabled = true;
     }
     void Update()
     {
-       transform.localScale -= Vector3.one * shrinkSpeed * Time.deltaTime;
+        //float difficulty = 1 + Time.timeSinceLevelLoad * difficultyRamp;
+       float speed = shrinkSpeed * GlobalDifficulty;
+       transform.localScale -= Vector3.one * speed * Time.deltaTime;
         
         if (transform.localScale.x <= 0.1f)
         {
@@ -37,6 +42,7 @@ public class ScaleFromEdge : MonoBehaviour
 
     void SpawnReplacement()
     {
+        
         GameObject clone = Instantiate(prefabToSpawn, transform.position, transform.rotation);
         clone.transform.localScale = originalScale;
 
@@ -60,9 +66,9 @@ public class ScaleFromEdge : MonoBehaviour
             foreach (var pair in spriteColours)
             {
                 if (pair.sprite == chosen)
-                {
-                    Debug.Log("PAIR: " + pair.sprite.name + " | CHOSEN: " + chosen.name);
+                { 
                     colourObj.colourName = pair.ColourName;
+                    clone.tag = pair.ColourName;
                     break;
                 }
             }
