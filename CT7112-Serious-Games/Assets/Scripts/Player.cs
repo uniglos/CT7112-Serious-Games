@@ -44,6 +44,8 @@ public class Player : MonoBehaviour
     public List<Color> colourOrder; 
     private int currentIndex = 0;
 
+    public ParticleSystem RippleGood;
+    public ParticleSystem RippleBad;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -51,10 +53,7 @@ public class Player : MonoBehaviour
     {
         highScore = PlayerPrefs.GetInt("HighScore", 0);
         SetRandomColour();
-        
-
-        
-        
+ 
     }
 
     // Update is called once per frame
@@ -64,9 +63,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             SetNextColour();
-            
-
-
+     
         }
     }
 
@@ -104,6 +101,9 @@ public class Player : MonoBehaviour
             scoreText.text = "Score: " + playerScore;
             Debug.Log("Correct Score = " + playerScore);
 
+
+            RippleGood.Play();
+
             combo++;
             comboMultiplier = 1 + combo / 5;
             playerScore += comboMultiplier;
@@ -117,9 +117,13 @@ public class Player : MonoBehaviour
         {
             playerHealth--;
 
+            
+
             if (playerHealth >= 0)
             {
+                RippleBad.Play();
                 StartCoroutine(heartEffects.ShakeAndFade(hearts[playerHealth]));
+                
             }
             
             if (playerHealth <= 0)

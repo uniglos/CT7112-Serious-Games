@@ -7,7 +7,8 @@ public class SceneManage : MonoBehaviour
     {
         Time.timeScale = 1f;
         ScaleFromEdge.GlobalDifficulty = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
     }
 
     public void QuitGame()
