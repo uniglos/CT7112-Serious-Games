@@ -2,6 +2,8 @@ using UnityEngine;
 using TMPro;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class Player : MonoBehaviour
 {
@@ -28,10 +30,31 @@ public class Player : MonoBehaviour
     public HeartEffects heartEffects;
     public Image[] hearts;
 
+    public GameObject gameOverPanel;
+
+    public TMP_Text lastScoreText;
+    public TMP_Text highScoreText;
+
+    private int highScore = 0;
+
+    public Image currentColourIcon;
+    public Image nextColourIcon;
+    public Image nextNextColourIcon;
+
+    public List<Color> colourOrder; 
+    private int currentIndex = 0;
+
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        highScore = PlayerPrefs.GetInt("HighScore", 0);
         SetRandomColour();
+        
+
+        
+        
     }
 
     // Update is called once per frame
@@ -41,6 +64,9 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             SetNextColour();
+            
+
+
         }
     }
 
@@ -96,6 +122,11 @@ public class Player : MonoBehaviour
                 StartCoroutine(heartEffects.ShakeAndFade(hearts[playerHealth]));
             }
             
+            if (playerHealth <= 0)
+            {
+                GameOver();
+            }
+            
             Debug.Log("Wrong. Health =" + playerHealth);
 
             combo = 0;
@@ -144,6 +175,25 @@ public class Player : MonoBehaviour
 
         comboAnimating = false;
     }
+
+    void GameOver()
+    {
+        Time.timeScale = 0f;
+        gameOverPanel.SetActive(true);
+
+        lastScoreText.text = "Last Score: " + playerScore;
+
+        if(playerScore > highScore)
+        {
+            highScore = playerScore;
+            PlayerPrefs.SetInt("High Score", highScore);
+            PlayerPrefs.Save();
+        }
+
+        highScoreText.text = "Best Score: " + highScore;
+    }
+
+    
 
 
 
