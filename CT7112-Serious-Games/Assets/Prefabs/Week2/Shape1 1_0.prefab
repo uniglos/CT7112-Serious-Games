@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3665210090064114903}
   - component: {fileID: 8520123832514969356}
   - component: {fileID: 6778779501779687515}
+  - component: {fileID: 761682814335616394}
   m_Layer: 0
   m_Name: Shape1 1_0
   m_TagString: Untagged
@@ -108,3 +109,56 @@ MonoBehaviour:
   - {fileID: -1437332885209443420, guid: dac3ebb60d1e89a4f87db5604ea8f8a1, type: 3}
   - {fileID: 1100511566910768525, guid: 5b5526a7134ac5c41bc1599318ffe1c4, type: 3}
   spriteColours: []
+--- !u!114 &761682814335616394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4054756067793489422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_Priority: 0
+  m_ComponentVersion: 5
+  m_HasRenderer: 1
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_AlphaCutoff: 0.361
+  m_ApplyToSortingLayers: 00000000f5e9679d
+  m_ShapePath:
+  - {x: -2.3399997, y: -2.3399997, z: 0}
+  - {x: -2.3399997, y: 2.3399997, z: 0}
+  - {x: 2.3399997, y: 2.3399997, z: 0}
+  - {x: 2.3399997, y: -2.3399997, z: 0}
+  m_ShapePathHash: 0
+  m_InstanceId: 0
+  m_ShadowShape2DComponent: {fileID: 8520123832514969356}
+  m_ShadowShape2DProvider:
+    rid: 5567916016942711055
+  m_ShadowCastingSource: 2
+  m_ShadowMesh:
+    m_Mesh: {fileID: 0}
+    m_LocalBounds:
+      m_Center: {x: 0, y: 0, z: 0}
+      m_Extent: {x: 0, y: 0, z: 0}
+    m_EdgeProcessing: 1
+    m_TrimEdge: 3.98
+    m_FlipX: 0
+    m_FlipY: 0
+    m_InitialTrim: 1
+  m_CastingOption: 2
+  m_PreviousTrimEdge: 3.98
+  m_PreviousEdgeProcessing: 1
+  m_PreviousShadowCastingSource: 2
+  m_PreviousShadowShape2DSource: {fileID: 8520123832514969356}
+  references:
+    version: 2
+    RefIds:
+    - rid: 5567916016942711055
+      type: {class: ShadowShape2DProvider_SpriteRenderer, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
+      data: 

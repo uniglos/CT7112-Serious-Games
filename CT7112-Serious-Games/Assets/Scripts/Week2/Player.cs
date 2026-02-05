@@ -53,7 +53,12 @@ public class Player : MonoBehaviour
 
     public CarouselSlide carouselSlide;
     public OutlineAnimatorUI outlineAnimator;
-    
+    public PlayerFade playerFade;
+
+    public SceneLightController sceneLight;
+
+
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -74,6 +79,8 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             SetNextColour();
+            StartCoroutine(sceneLight.FadeToColour(colourOrder[currentIndex].colourValue));
+            StartCoroutine(playerFade.FadeToSprite(colourOrder[currentIndex].sprite));
             UpdateCarousel();
             carouselSlide.PlayAnimation();
             StartCoroutine(outlineAnimator.Pulse());
@@ -88,6 +95,7 @@ public class Player : MonoBehaviour
         currentColour = spriteColours[colourIndex].ColourName;
 
         sr.color = Color.white;
+        sceneLight.globalLight.color = colourOrder[currentIndex].colourValue;
     }
 
     void SetNextColour()
@@ -97,8 +105,8 @@ public class Player : MonoBehaviour
         if (currentIndex >= colourOrder.Count)
             currentIndex = 0;
 
-        
-        sr.sprite = colourOrder[currentIndex].sprite;
+
+        StartCoroutine(playerFade.FadeToSprite(colourOrder[currentIndex].sprite));
         currentColour = colourOrder[currentIndex].ColourName;
     }
 
