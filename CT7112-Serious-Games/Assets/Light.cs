@@ -7,7 +7,19 @@ public class SceneLightController : MonoBehaviour
     public Light2D globalLight;
     public float fadeDuration = 0.25f;
 
-    public IEnumerator FadeToColour(Color newColor)
+    private Coroutine runningFade;
+
+    public void FadeToColor(Color newColor)
+    {
+        // Stop previous fade if it's still running
+        if (runningFade != null)
+            StopCoroutine(runningFade);
+
+        // Start a new fade
+        runningFade = StartCoroutine(FadeRoutine(newColor));
+    }
+
+    private IEnumerator FadeRoutine(Color newColor)
     {
         float t = 0f;
         Color startColor = globalLight.color;
@@ -23,6 +35,8 @@ public class SceneLightController : MonoBehaviour
         }
 
         globalLight.color = newColor;
+        runningFade = null;
     }
 }
+
 

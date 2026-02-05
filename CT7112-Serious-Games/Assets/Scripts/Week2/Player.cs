@@ -79,7 +79,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             SetNextColour();
-            StartCoroutine(sceneLight.FadeToColour(colourOrder[currentIndex].colourValue));
+            sceneLight.FadeToColor(colourOrder[currentIndex].colourValue);
             StartCoroutine(playerFade.FadeToSprite(colourOrder[currentIndex].sprite));
             UpdateCarousel();
             carouselSlide.PlayAnimation();
@@ -95,7 +95,8 @@ public class Player : MonoBehaviour
         currentColour = spriteColours[colourIndex].ColourName;
 
         sr.color = Color.white;
-        sceneLight.globalLight.color = colourOrder[currentIndex].colourValue;
+        sceneLight.globalLight.color = colourOrder[colourIndex].colourValue; 
+        currentIndex = colourIndex;
     }
 
     void SetNextColour()
