@@ -47,6 +47,11 @@ public class Player : MonoBehaviour
     public ParticleSystem RippleGood;
     public ParticleSystem RippleBad;
 
+    public ScreenShake screenShake;
+
+    public AudioSource audioSource;
+    public AudioClip scoreSound;
+    public AudioClip missSound;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -101,8 +106,12 @@ public class Player : MonoBehaviour
             scoreText.text = "Score: " + playerScore;
             Debug.Log("Correct Score = " + playerScore);
 
+            audioSource.PlayOneShot(scoreSound, 1);
+
 
             RippleGood.Play();
+
+            StartCoroutine(screenShake.Shake(0.05f, 0.1f));
 
             combo++;
             comboMultiplier = 1 + combo / 5;
@@ -117,7 +126,9 @@ public class Player : MonoBehaviour
         {
             playerHealth--;
 
-            
+            audioSource.PlayOneShot(missSound, 1);
+
+
 
             if (playerHealth >= 0)
             {
@@ -182,22 +193,44 @@ public class Player : MonoBehaviour
 
     void GameOver()
     {
+        PlayerPrefs.SetInt("LastScore", playerScore);
+        PlayerPrefs.Save();
+
         Time.timeScale = 0f;
         gameOverPanel.SetActive(true);
 
-        lastScoreText.text = "Last Score: " + playerScore;
+        int finalScore = PlayerPrefs.GetInt("LastScore", 0);
+        StartCoroutine(CountScore(finalScore));
 
-        if(playerScore > highScore)
+        // high score logic
+        if (finalScore > highScore)
         {
-            highScore = playerScore;
-            PlayerPrefs.SetInt("High Score", highScore);
+            highScore = finalScore;
+            PlayerPrefs.SetInt("HighScore", highScore);
             PlayerPrefs.Save();
         }
 
-        highScoreText.text = "Best Score: " + highScore;
+        highScoreText.text = "High Score: " + highScore;
     }
 
-    
+
+    public IEnumerator CountScore(int finalScore)
+    {
+        int displayed = 0;
+
+        while (displayed < finalScore)
+        {
+            displayed += Mathf.CeilToInt(finalScore * 5f); // speed curve
+            displayed = Mathf.Min(displayed, finalScore);
+
+            lastScoreText.text = "Last Score: " + displayed;
+
+            yield return null;
+        }
+    }
+
+
+
 
 
 
